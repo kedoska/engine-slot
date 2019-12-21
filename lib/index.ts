@@ -43,7 +43,8 @@ export const decorate = (config: Config, mask = [[]]): Result => {
         prize: 0,
         lines: [],
     }
-    const ws = config.w[0].length - 1 // wild symbol
+    const { wild } = config
+    const wi = wild && wild.index ? wild.index : -1
 
     for (let i = 0; i < mask.length; i++) {
         const line = mask[i]
@@ -52,15 +53,15 @@ export const decorate = (config: Config, mask = [[]]): Result => {
         let symbol = -1
         for (let s = 0; s < line.length; s++) {
             // select the first symbol in this line
-            // it must be different then a ws (wild symbol)
+            // it must be different then a wild symbol
             symbol = line[s]
-            if (symbol !== ws) {
+            if (symbol !== wi) {
                 break
             }
         }
         for (let s = 0; s < line.length; s++) {
 
-            const isWild = ws === line[s]
+            const isWild = wi === line[s]
             if (isWild) {
                 wc++
                 combo++
