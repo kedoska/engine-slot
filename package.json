@@ -1,0 +1,15 @@
+{
+  "name": "slot-engine",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "Marco Casula",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^24.9.0"
+  }
+}
