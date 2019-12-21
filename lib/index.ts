@@ -51,22 +51,33 @@ export const decorate = (config: Config, mask = [[]]): Result => {
         let wc = 0 // wild count
         let combo = 0
         let symbol = -1
-        for (let s = 0; s < line.length; s++) {
-            // select the first symbol in this line
-            // it must be different then a wild symbol
-            symbol = line[s]
-            if (symbol !== wi) {
-                break
+
+        if (wi > -1) {
+            for (let s = 0; s < line.length; s++) {
+                // select the first symbol in this line
+                // it must be different then a wild symbol
+                symbol = line[s]
+                if (symbol !== wi) {
+                    break
+                }
             }
+        } else {
+            // when wild is not defined, the first symbol will be always the
+            // symbol of the combo.
+            symbol = line[0]
         }
+
         for (let s = 0; s < line.length; s++) {
 
-            const isWild = wi === line[s]
+            // consider wild if defined.
+            // Wild takes the value of the combo's symbol.
+            const isWild = wi > -1 && wi === line[s]
             if (isWild) {
                 wc++
                 combo++
                 continue
             }
+
             if (line[s] !== symbol) {
                 break
             }
