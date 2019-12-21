@@ -1,21 +1,26 @@
 {
   "name": "@kedoska/engine-slot",
   "version": "0.0.1",
-  "description": "",
+  "description": "A slot machine engine",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "jest",
     "build": "tsc",
     "format": "prettier --write \"lib/**/*.ts\" \"lib/**/*.js\"",
-    "lint": "tslint -p tsconfig.json"
+    "lint": "tslint -p tsconfig.json",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion" : "npm run lint",
+    "version" : "npm run format && git add -A src",
+    "postversion" : "git push && git push --tags"
   },
   "bugs": {
     "url": "https://github.com/kedoska/engine-slot/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kedoska/engine-slot"
+    "url": "git@github.com:kedoska/engine-slot.git"
   },
   "keywords": [],
   "author": "Marco Casula <marco.casula@gmail.com>",
@@ -31,5 +36,8 @@
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
-  }
+  },
+  "files": [
+      "dist/**/*"
+  ]
 }

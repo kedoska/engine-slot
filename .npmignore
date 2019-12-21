@@ -1,3 +1,6 @@
 lib/
 test/
 config/
+tsconfig.json
+tslint.json
+.prettierrc
