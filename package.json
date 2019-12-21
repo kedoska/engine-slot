@@ -15,6 +15,13 @@
   "bugs": {
     "url": "https://github.com/kedoska/engine-slot/issues"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kedoska/engine-slot"
+  },
+  "bugs": {
+    "url": "https://github.com/kedoska/engine-slot/issues"
+  },
   "keywords": [],
   "author": "Marco Casula <marco.casula@gmail.com>",
   "license": "GPL-2.0",
