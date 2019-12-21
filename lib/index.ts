@@ -1,7 +1,9 @@
-const r = (max) => Math.floor(Math.random() * max) + 1 
+import { Config, Result } from "./types"
 
-const select = (arr = [], n = 0) => {
-    let v = 0
+export const r = (max: number): number => Math.floor(Math.random() * max) + 1
+
+export const select = (arr: Array<number> = [], n: number = 0): number => {
+    let v: number = 0
     for (let i = 0; i < arr.length; i++) {
         v += arr[i]
         if (v < n) {
@@ -9,12 +11,11 @@ const select = (arr = [], n = 0) => {
         }
         return i
     }
+    throw `could not select a number: in ${arr.join('|')} using "${n}"`
 }
 
-module.exports.select = select
-
-module.exports.grid = (config, cache) => {
-    const grid = []
+export const grid = (config: Config, cache: Array<number>): Array<number[]> => {
+    const grid: Array<number[]> = []
     for (let row = 0; row < config.r; row++) {
         grid.push([])
         for (let reel = 0; reel < config.w.length; reel++) {
@@ -24,7 +25,7 @@ module.exports.grid = (config, cache) => {
     return grid
 }
 
-module.exports.mask = (config, grid = [[]]) => {
+export const mask = (config: Config, grid: Array<number[]> = [[]]): Array<number[]> => {
     var ll = config.m.map(x => x.slice())
 
     for (let line = 0; line < config.m.length; line++) {
@@ -37,8 +38,8 @@ module.exports.mask = (config, grid = [[]]) => {
     return ll
 }
 
-module.exports.decorate = (config, mask = [[]]) => {
-    const r = {
+export const decorate = (config: Config, mask = [[]]): Result => {
+    const r: Result = {
         prize: 0,
         lines: [],
     }
@@ -75,14 +76,14 @@ module.exports.decorate = (config, mask = [[]]) => {
 
         if (prize) {
             r.prize += prize
-            r.lines.push(mask[i].concat({ i, combo, prize, wc }))
+            r.lines.push({ i, combo, prize, wc, ss: mask[i] })
         }
     }
     return r
 }
 
-const sum = (arr = []) => arr.reduce((m, v) => m + v, 0)
+export const sum = (arr: Array<number> = []) => arr.reduce((m, v) => m + v, 0)
 
 // build cache returns an array representing, for each w in config
 // the sum of all the symbols w.
-module.exports.buildCache = (config) => config.w.map(sum)
+export const buildCache = (config: Config) => config.w.map(sum)
