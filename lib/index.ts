@@ -38,7 +38,7 @@ export const mask = (config: Config, grid: Array<number[]> = [[]]): Array<number
     return ll
 }
 
-export const decorate = (config: Config, mask = [[]]): Result => {
+export const decorate = (config: Config, mask: Array<number[]> = [[]]): Result => {
     const r: Result = {
         prize: 0,
         lines: [],
