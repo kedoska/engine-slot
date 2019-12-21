@@ -1,15 +1,23 @@
 {
-  "name": "slot-engine",
-  "version": "1.0.0",
+  "name": "@kedoska/engine-slot",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "jest"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kedoska/engine-slot"
+  },
+  "bugs": {
+    "url": "https://github.com/kedoska/engine-slot/issues"
+  },
   "keywords": [],
-  "author": "Marco Casula",
-  "license": "ISC",
+  "author": "Marco Casula <marco.casula@gmail.com>",
+  "license": "GPL-2.0",
   "devDependencies": {
     "jest": "^24.9.0"
-  }
+  },
+  "publishConfig": { "registry": "https://npm.pkg.github.com/" }
 }
