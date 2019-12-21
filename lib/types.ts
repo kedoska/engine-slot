@@ -65,8 +65,17 @@ export interface Config {
      * @type {Array<number[]>}
      * @memberof Config
      */
-    p: Array<number[]>;
+    p: Array<number[]>
+    /**
+     * w: (wild) Optional, defines properties of this special symbol.
+     * @type {number}
+     * @memberof Config
+     */
     wild?: {
+        /**
+         * index defines which symbol must be considered wild.
+         * @type {number}
+         */
         index: number
     }
 }
