@@ -1,5 +1,11 @@
 {
     "files.watcherExclude": {
         "**/dist/**": true
-    }
+    },
+    "cSpell.ignoreWords": [
+        "casula",
+        "gmail",
+        "postversion",
+        "preversion"
+    ]
 }

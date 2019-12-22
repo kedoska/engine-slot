@@ -5,6 +5,7 @@ module.exports = {
   "roots": [
     "<rootDir>"
   ],
+  "modulePathIgnorePatterns": ["<rootDir>/dist/"],
   "testMatch": [
     "**/tests/**/*.+(ts|tsx|js)",
     "**/?(*.)+(spec|test).+(ts|tsx|js)"
