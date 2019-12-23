@@ -82,11 +82,14 @@ export const decorate = (config: IConfig, filledMask: number[][] = [[]]): IResul
             combo++
             continue
         }
-        const prize = config.p[symbol][combo - 1]
+        const prizesPerSymbol = config.p[symbol]
+        if (prizesPerSymbol) {
 
-        if (prize) {
-            result.prize += prize
-            result.lines.push({ i, combo, prize, wc, ss: filledMask[i] })
+            const prize = prizesPerSymbol[combo - 1]
+            if (prize) {
+                result.prize += prize
+                result.lines.push({ i, combo, prize, wc, ss: filledMask[i] })
+            }
         }
     }
     return result
