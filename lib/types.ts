@@ -137,7 +137,7 @@ export interface IStorage {
     freeSpin?: IFreeSpin
 }
 
-export interface ILines {
+export interface IResult {
     prize: number
     lines: IProcessedLine[]
     exitStorage: IStorage

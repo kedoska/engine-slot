@@ -1,4 +1,4 @@
-import { IConfig, IGrid, ILines, IStorage } from './types'
+import { IConfig, IGrid, IResult, IStorage } from './types'
 
 export const r = (max: number): number => Math.floor(Math.random() * max) + 1
 
@@ -15,14 +15,13 @@ export const select = (arr: number[] = [], n: number = 0): number => {
 }
 
 export const grid = (config: IConfig, cache: number[]): IGrid => {
-
     const fsi = config.freeSpin && Number.isInteger(config.freeSpin.index) ? config.freeSpin.index : -1
 
     const symbols: number[][] = []
     const freeSpin = {
+        multiplier: 1,
         symbols: 0,
         total: 0,
-        multiplier: 1,
     }
 
     // At this point we want to distribute the symbols across the grid.
@@ -51,8 +50,8 @@ export const grid = (config: IConfig, cache: number[]): IGrid => {
     }
 
     return {
-        symbols,
         freeSpin,
+        symbols,
     }
 }
 
@@ -69,11 +68,16 @@ export const mask = (config: IConfig, filledGrid: IGrid): number[][] => {
     return ll
 }
 
-export const processLines = (config: IConfig, filledGrid: IGrid, filledMask: number[][] = [[]], storage: IStorage): ILines => {
-    const result: ILines = {
+export const processLines = (
+    config: IConfig,
+    filledGrid: IGrid,
+    filledMask: number[][] = [[]],
+    storage: IStorage,
+): IResult => {
+    const result: IResult = {
+        exitStorage: {},
         lines: [],
         prize: 0,
-        exitStorage: {}
     }
     const { wild } = config
     const wi = wild && Number.isInteger(wild.index) ? wild.index : -1
@@ -138,14 +142,14 @@ export const sum = (arr: number[] = []) => arr.reduce((m, v) => m + v, 0)
 export const buildCache = (config: IConfig) => config.w.map(sum)
 
 export const digest = (prev?: IStorage, filledGrid?: IGrid): IStorage => {
-    const currentFreeSpins = (prev && prev.freeSpin) ? prev.freeSpin.total : 0
-    const comingFreeSpins = (filledGrid && filledGrid.freeSpin) ? filledGrid.freeSpin.total : 0
-    const discountFreeSpin = (prev && prev.freeSpin && prev.freeSpin.total) ? 1 : 0
+    const comingFreeSpins = filledGrid && filledGrid.freeSpin ? filledGrid.freeSpin.total : 0
+    const currentFreeSpins = prev && prev.freeSpin ? prev.freeSpin.total : 0
+    const discountFreeSpin = prev && prev.freeSpin && prev.freeSpin.total ? 1 : 0
     return {
         freeSpin: {
-            symbols: (filledGrid && filledGrid.freeSpin) ? filledGrid.freeSpin.symbols : 0,
-            total: (currentFreeSpins + comingFreeSpins) - discountFreeSpin,
-            multiplier: (filledGrid && filledGrid.freeSpin) ? filledGrid.freeSpin.multiplier : 0,
-        }
+            multiplier: filledGrid && filledGrid.freeSpin ? filledGrid.freeSpin.multiplier : 0,
+            symbols: filledGrid && filledGrid.freeSpin ? filledGrid.freeSpin.symbols : 0,
+            total: currentFreeSpins + comingFreeSpins - discountFreeSpin,
+        },
     }
 }

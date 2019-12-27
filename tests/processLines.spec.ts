@@ -1,5 +1,5 @@
-import { processLines } from "../lib"
-import { IConfig, IStorage, IGrid } from "../lib/types"
+import { buildCache, grid, mask, processLines } from "../lib"
+import { IConfig, IGrid, IResult, IStorage  } from "../lib/types"
 
 const banana = 0
 const kiwi = 1
@@ -14,12 +14,12 @@ const wildW = 10
 const storage: IStorage = {}
 
 const filledGrid: IGrid = {
-    symbols: [],
     freeSpin: {
+        multiplier: 0,
         symbols: 0,
         total: 0,
-        multiplier: 0,
-    }
+    },
+    symbols: [],
 }
 
 test('5 reels; 1 row; 3 symbols per reel', () => {
@@ -95,4 +95,43 @@ test('5 reels; 1 row; 4 symbols per reel (Wild)', () => {
     expect(processLines(config, filledGrid, [[orange, wild, orange]], storage).prize).toBe(100)
     expect(processLines(config, filledGrid, [[orange, orange, kiwi]], storage).prize).toBe(20)
     expect(processLines(config, filledGrid, [[orange, orange, wild]], storage).prize).toBe(100)
+})
+
+test('generate results', () => {
+    const config: IConfig = {
+        freeSpin: {
+            conditions: [
+                { count: 3, multiply: 10, total: 10 }
+            ],
+            index: 1,
+        },
+        m: [
+            [0, 0, 0]
+        ],
+        p: [
+            [0, 0, 0],
+            [0, 0, 100],
+            [0, 0, 0],
+        ],
+        r: 1,
+        w: [
+            [0, 1, 0],
+            [0, 1, 0],
+            [0, 1, 0],
+        ],
+    }
+    const cache = buildCache(config)
+    const firstSpin: IGrid = grid(config, cache)
+    const firstSpinLines: IResult = processLines(config, firstSpin, mask(config, firstSpin), storage)
+    expect(firstSpinLines.prize).toBe(100)
+    expect(firstSpin.freeSpin.multiplier).toBe(10)
+
+
+    const secondSpin: IGrid = grid(config, cache)
+    const secondSpinLines: IResult = processLines(config, firstSpin, mask(config, secondSpin), firstSpinLines.exitStorage)
+    expect(secondSpinLines.prize).toBe(100 * 10)
+    expect(secondSpin.freeSpin.multiplier).toBe(10)
+
+    expect(secondSpinLines.exitStorage.freeSpin?.total).toBe(10 + 10 - 1)
+
 })

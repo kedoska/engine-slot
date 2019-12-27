@@ -1,8 +1,16 @@
-import { IConfig } from "../lib/types"
 import { buildCache, grid } from "../lib"
+import { IConfig } from "../lib/types"
 
 test('grid having free spins', () => {
     const config:IConfig = {
+        freeSpin: {
+            conditions: [
+                {count: 1, multiply: 0, total: 10},
+                {count: 2, multiply: 0, total: 50},
+                {count: 3, multiply: 0, total: 100},
+            ],
+            index: 2,
+        },
         m: [
             [0,0,0]
         ],
@@ -15,14 +23,6 @@ test('grid having free spins', () => {
             [0, 0, 1],
             [0, 0, 1],
         ],
-        freeSpin: {
-            index: 2,
-            conditions: [
-                {count: 1, multiply: 0, total: 10},
-                {count: 2, multiply: 0, total: 50},
-                {count: 3, multiply: 0, total: 100},
-            ]
-        }
     }
     const cache = buildCache(config)
     expect(cache.length).toBe(3)

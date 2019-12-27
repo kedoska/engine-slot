@@ -1,6 +1,7 @@
 import { buildCache, grid, sum } from "../lib"
 import { IConfig } from "../lib/types"
 
+
 test('simple grid', () => {
     const config:IConfig = {
         m: [
