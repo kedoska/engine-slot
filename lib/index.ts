@@ -1,4 +1,4 @@
-import { IConfig, IResult } from './types'
+import { IConfig, IResult, IStorage, IGrid } from './types'
 
 export const r = (max: number): number => Math.floor(Math.random() * max) + 1
 
@@ -14,31 +14,49 @@ export const select = (arr: number[] = [], n: number = 0): number => {
     throw Error(`could not select a number: in ${arr.join('|')} using "${n}"`)
 }
 
-export const grid = (config: IConfig, cache: number[]): number[][] => {
-    const result: number[][] = []
+export const grid = (config: IConfig, cache: number[]): IGrid => {
+
+    const { freeSpin } = config
+    const fsi = freeSpin && freeSpin.index ? freeSpin.index : -1
+
+    const symbols: number[][] = []
+    let totalFSS: number = 0
+
     for (let row = 0; row < config.r; row++) {
-        result.push([])
+        symbols.push([])
         for (let reel = 0; reel < config.w.length; reel++) {
-            result[row].push(select(config.w[reel], r(cache[reel])))
+
+            const symbol = select(config.w[reel], r(cache[reel]))
+
+            if (fsi > -1 && symbol === fsi) {
+                // Free Spin Symbols are across the grid not by line.
+                totalFSS++
+            }
+
+            symbols[row].push(symbol)
         }
     }
-    return result
+    return {
+        symbols,
+        totalFSS,
+    }
 }
 
-export const mask = (config: IConfig, filledGrid: number[][] = [[]]): number[][] => {
+export const mask = (config: IConfig, filledGrid: IGrid): number[][] => {
     const ll = config.m.map(x => x.slice())
 
     for (let line = 0; line < config.m.length; line++) {
         const l = ll[line]
         for (let reel = 0; reel < l.length; reel++) {
             const row = l[reel]
-            ll[line][reel] = filledGrid[row][reel]
+            ll[line][reel] = filledGrid.symbols[row][reel]
         }
     }
     return ll
 }
 
-export const decorate = (config: IConfig, filledMask: number[][] = [[]]): IResult => {
+
+export const decorate = (config: IConfig, filledMask: number[][] = [[]], storage: IStorage): IResult => {
     const result: IResult = {
         lines: [],
         prize: 0,
@@ -66,6 +84,7 @@ export const decorate = (config: IConfig, filledMask: number[][] = [[]]): IResul
             // symbol of the combo.
             symbol = line[0]
         }
+
         for (const s of line) {
             // consider wild if defined.
             // Wild takes the value of the combo's symbol.
@@ -85,7 +104,10 @@ export const decorate = (config: IConfig, filledMask: number[][] = [[]]): IResul
         const prizesPerSymbol = config.p[symbol]
         if (prizesPerSymbol) {
 
-            const prize = prizesPerSymbol[combo - 1]
+            // the multiplier, from the prev session, to be applied to the current session.
+            const { multiplier = 1 } = storage
+
+            const prize = prizesPerSymbol[combo - 1] * multiplier
             if (prize) {
                 result.prize += prize
                 result.lines.push({ i, combo, prize, wc, ss: filledMask[i] })

@@ -72,8 +72,8 @@ export interface IConfig {
      */
     p: number[][]
     /**
-     * w: (wild) Optional, defines properties of this special symbol.
-     * @type {number}
+     * wild (Optional), defines properties of this special symbol.
+     * @type {object}
      * @memberof IConfig
      */
     wild?: {
@@ -82,6 +82,19 @@ export interface IConfig {
          * @type {number}
          */
         index: number
+    },
+    /**
+     * freeSpin (Optional), defines properties of this special symbol.
+     * @type {object}
+     * @memberof IConfig
+     */
+    freeSpin?: {
+        /**
+         * index defines which symbol must be considered "free Spin".
+         * @type {number}
+         */
+        index: number
+        conditions: Array<{count: number, multiply: number}>
     }
 }
 
@@ -93,7 +106,16 @@ export interface IProcessedLine {
     ss: number[]
 }
 
+export interface IGrid {
+    symbols: number[][]
+    totalFSS: number
+}
+
 export interface IResult {
     prize: number
     lines: IProcessedLine[]
+}
+
+export interface IStorage {
+    multiplier: number
 }
