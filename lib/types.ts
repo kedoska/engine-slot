@@ -113,7 +113,7 @@ export interface IGrid {
     totalFSS: number
 }
 
-export interface IResult {
+export interface ILines {
     prize: number
     lines: IProcessedLine[]
 }

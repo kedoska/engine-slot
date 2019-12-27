@@ -1,4 +1,4 @@
-import { IConfig, IResult, IStorage, IGrid } from './types'
+import { IConfig, ILines, IStorage, IGrid } from './types'
 
 export const r = (max: number): number => Math.floor(Math.random() * max) + 1
 
@@ -56,8 +56,8 @@ export const mask = (config: IConfig, filledGrid: IGrid): number[][] => {
 }
 
 
-export const processLines = (config: IConfig, filledMask: number[][] = [[]], storage: IStorage): IResult => {
-    const result: IResult = {
+export const processLines = (config: IConfig, filledMask: number[][] = [[]], storage: IStorage): ILines => {
+    const result: ILines = {
         lines: [],
         prize: 0,
     }
