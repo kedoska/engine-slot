@@ -15,12 +15,17 @@ export const select = (arr: number[] = [], n: number = 0): number => {
 }
 
 export const grid = (config: IConfig, cache: number[]): IGrid => {
-    const { freeSpin } = config
-    const fsi = freeSpin && freeSpin.index ? freeSpin.index : -1
+
+    const fsi = config.freeSpin && Number.isInteger(config.freeSpin.index) ? config.freeSpin.index : -1
 
     const symbols: number[][] = []
-    let totalFSS: number = 0
+    const freeSpin = {
+        symbols: 0,
+        total: 0,
+        multiplier: 1,
+    }
 
+    // At this point we want to distribute the symbols across the grid.
     for (let row = 0; row < config.r; row++) {
         symbols.push([])
         for (let reel = 0; reel < config.w.length; reel++) {
@@ -28,15 +33,26 @@ export const grid = (config: IConfig, cache: number[]): IGrid => {
 
             if (fsi > -1 && symbol === fsi) {
                 // Free Spin Symbols are across the grid not by line.
-                totalFSS++
+                freeSpin.symbols++
             }
 
             symbols[row].push(symbol)
         }
     }
+
+    if (fsi > -1 && freeSpin.symbols > 0) {
+        // Free spin won on the current spin must be considered in the next spin.
+        // Current game should NOT be affected by the free spin.
+        const condition = config.freeSpin?.conditions.find(x => x.count === freeSpin.symbols)
+        if (condition && condition.total) {
+            freeSpin.total = condition.total
+            freeSpin.multiplier = condition.multiply || 1 // multiplier could be 0
+        }
+    }
+
     return {
         symbols,
-        totalFSS,
+        freeSpin,
     }
 }
 
@@ -59,7 +75,7 @@ export const processLines = (config: IConfig, filledMask: number[][] = [[]], sto
         prize: 0,
     }
     const { wild } = config
-    const wi = wild && wild.index ? wild.index : -1
+    const wi = wild && Number.isInteger(wild.index) ? wild.index : -1
 
     for (let i = 0; i < filledMask.length; i++) {
         const line = filledMask[i]

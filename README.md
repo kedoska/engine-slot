@@ -30,3 +30,11 @@ At the very basics, a configuration file is required. Understand the configurati
 - [ ] `Multiplier` Symbols
 - [ ] `Scatter` Symbols
 
+
+## Life Cycle
+
+ * The configuration produces the grid
+ * The grid produces the prizes for the current spin and the future storage
+ * The post grid processes considers the previous storage to generate the exit state
+
+The `state` of the slot machine must consider the `storage`'s new data as the free spin, for example are contained in it.
