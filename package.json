@@ -1,44 +1,59 @@
 {
-  "name": "@kedoska/engine-slot",
-  "version": "0.0.1",
-  "description": "A slot machine engine",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "test": "jest",
-    "coverage": "jest --coverage",
-    "build": "tsc",
-    "format": "prettier --write \"lib/**/*.ts\" \"lib/**/*.js\"",
-    "lint": "tslint -p tsconfig.json",
-    "prepare": "npm run build",
-    "prepublishOnly": "npm test && npm run lint",
-    "preversion" : "npm run lint",
-    "version" : "npm run format && git add -A src",
-    "postversion" : "git push && git push --tags"
-  },
-  "bugs": {
-    "url": "https://github.com/kedoska/engine-slot/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:kedoska/engine-slot.git"
-  },
-  "keywords": [],
-  "author": "Marco Casula <marco.casula@gmail.com>",
-  "license": "GPL-2.0",
-  "devDependencies": {
-    "@types/jest": "^24.0.24",
-    "jest": "^24.9.0",
-    "prettier": "^1.19.1",
-    "ts-jest": "^24.2.0",
-    "tslint": "^5.20.1",
-    "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.7.4"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
-  },
-  "files": [
-      "dist/**/*"
-  ]
+    "name": "@kedoska/engine-slot",
+    "version": "0.0.1",
+    "description": "A slot machine engine",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "test": "jest",
+        "coverage": "jest --coverage",
+        "build": "tsc",
+        "format": "prettier --write \"lib/**/*.ts\" \"lib/**/*.js\"",
+        "lint": "tslint -p tsconfig.json",
+        "prepare": "npm run build",
+        "prepublishOnly": "npm test && npm run lint",
+        "preversion": "npm run lint",
+        "version": "npm run format && git add -A lib",
+        "postversion": "git push && git push --tags"
+    },
+    "bugs": {
+        "url": "https://github.com/kedoska/engine-slot/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:kedoska/engine-slot.git"
+    },
+    "keywords": [],
+    "author": "Marco Casula <marco.casula@gmail.com>",
+    "license": "GPL-2.0",
+    "devDependencies": {
+        "@types/jest": "^24.0.24",
+        "jest": "^24.9.0",
+        "prettier": "^1.19.1",
+        "ts-jest": "^24.2.0",
+        "tslint": "^5.20.1",
+        "tslint-config-prettier": "^1.18.0",
+        "typescript": "^3.7.4"
+    },
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com/"
+    },
+    "files": [
+        "dist/**/*"
+    ],
+    "jest": {
+        "roots": [
+            "<rootDir>"
+        ],
+        "modulePathIgnorePatterns": [
+            "<rootDir>/dist/"
+        ],
+        "testMatch": [
+            "**/tests/**/*.+(ts|tsx|js)",
+            "**/?(*.)+(spec|test).+(ts|tsx|js)"
+        ],
+        "transform": {
+            "^.+\\.(ts|tsx)$": "ts-jest"
+        }
+    }
 }
