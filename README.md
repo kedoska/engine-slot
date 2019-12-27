@@ -26,7 +26,48 @@ At the very basics, a configuration file is required. Understand the configurati
 - [x] Configure the payout on each symbol
 - [x] Add any line and relative path you like (on top of the grid layout)
 - [x] `Wild` Symbols (to complete combinations)
-- [ ] `Free Spins` Symbols
-- [ ] `Multiplier` Symbols
+- [x] `Free Spins` Symbols
+- [x] `Multiplier` Symbols
 - [ ] `Scatter` Symbols
 
+
+## Life Cycle
+
+ * The configuration produces the grid
+ * The grid produces the prizes for the current spin and the future storage
+ * The post grid processes considers the previous storage to generate the exit state
+
+### A workflow, without persistent state
+
+ 1. create or load the configuration `const config: IConfig = ...`
+ 2. create a cached configuration `const cache = buildCache(config)`
+ 3. load the storage (state relative to your context) `const storage: IStorage = {}`
+ 4. generate the grid (random occurs here) `let spin: IGrid = grid(config, cache)`
+ 5. create the line mask: `let lines = mask(config, spin)`
+ 6. process the grid across lines `const result: IResult = process(config, spin, lines, storage)`
+ 7. repeat `4` -> `5` -> `6` until is necessary...
+
+In the above example the storage is an `empty object` that has no previous state to pass to the `process function`
+
+### A workflow, with persistent state (Example Free Spins)
+
+In this case, we assume the `result: IResult`, because of the `config: IConfig`, produces some *Free Spins*.
+Before to go ahead, please consider that Free spins have some basic, built-in rules:
+
+ - free spin is FS;
+ - FSs depends on symbols;
+ - symbols that give FSS are across the grid, never considered on the line;
+ - FSs can have multiplier (default value `1`) that will boosts the prizes gained over FS;
+ - FS is applied on the next spin, the spin that won FS
+
+> If you are interested in how free spins are handled, check out the `IConfig` interface and the `grid` function.
+
+ 1. create or load the configuration `const config: IConfig = ...`
+ 2. create a cached configuration `const cache = buildCache(config)`
+ 3. load the storage (state relative to your context) `const storage: IStorage = {}`
+ 4. generate the grid (random occurs here) `let spin: IGrid = grid(config, cache)`
+ 5. create the line mask: `let lines = mask(config, spin)`
+ 6. process the grid across lines `let result: IResult = process(config, spin, lines, storage)`
+ 7. repeat `4` -> `5` -> and `6` but this time override the last parameter of the `process` function (the `storage`) with the `result.exitStorage`
+
+The `IResult.exitStorage` implements the `IStorage` interface, which is mutated during the `process` function. In a non-test environment you probably are storing the `result`, associated to some _user_ information, in order to restore the state of the slot machine, continuing with the _game_.
