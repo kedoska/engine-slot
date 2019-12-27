@@ -45,7 +45,7 @@ At the very basics, a configuration file is required. Understand the configurati
  3. load the storage (state relative to your context) `const storage: IStorage = {}`
  4. generate the grid (random occurs here) `let spin: IGrid = grid(config, cache)`
  5. create the line mask: `let lines = mask(config, spin)`
- 6. process the grid across lines `const result: IResult = process(config, spin, lines, storage)`
+ 6. process the grid across lines `const result: IResult = process(1, config, spin, lines, storage)`
  7. repeat `4` -> `5` -> `6` until is necessary...
 
 In the above example the storage is an `empty object` that has no previous state to pass to the `process function`
@@ -68,7 +68,7 @@ Before to go ahead, please consider that Free spins have some basic, built-in ru
  3. load the storage (state relative to your context) `const storage: IStorage = {}`
  4. generate the grid (random occurs here) `let spin: IGrid = grid(config, cache)`
  5. create the line mask: `let lines = mask(config, spin)`
- 6. process the grid across lines `let result: IResult = process(config, spin, lines, storage)`
+ 6. process the grid across lines `let result: IResult = process(1, config, spin, lines, storage)`
  7. repeat `4` -> `5` -> and `6` but this time override the last parameter of the `process` function (the `storage`) with the `result.exitStorage`
 
 The `IResult.exitStorage` implements the `IStorage` interface, which is mutated during the `process` function. In a non-test environment you probably are storing the `result`, associated to some _user_ information, in order to restore the state of the slot machine, continuing with the _game_.

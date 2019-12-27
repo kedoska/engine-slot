@@ -68,7 +68,15 @@ export const mask = (config: IConfig, filledGrid: IGrid): number[][] => {
     return ll
 }
 
+/**
+ * @param betPerLine {number} bet per line is the risk on each line, used to calculate the payout
+ * @param config {IConfig}
+ * @param filledGrid {IGrid}
+ * @param filledMask {number[][]}
+ * @param storage {IStorage}
+ */
 export const process = (
+    betPerLine: number,
     config: IConfig,
     filledGrid: IGrid,
     filledMask: number[][] = [[]],
@@ -124,7 +132,7 @@ export const process = (
             // the multiplier, from the prev session, to be applied to the current session.
             const { multiplier = 1 } = storage.freeSpin || {}
 
-            const prize = prizesPerSymbol[combo - 1] * multiplier
+            const prize = betPerLine * prizesPerSymbol[combo - 1] * multiplier
             if (prize) {
                 result.prize += prize
                 result.lines.push({ i, combo, prize, wc, ss: filledMask[i] })

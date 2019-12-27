@@ -47,15 +47,15 @@ test('5 reels; 1 row; 3 symbols per reel', () => {
         ],
     }
 
-    expect(process(config, filledGrid, [[banana, kiwi, orange]], storage).prize).toBe(0)
-    expect(process(config, filledGrid, [[banana, banana, orange]], storage).prize).toBe(0)
-    expect(process(config, filledGrid, [[banana, banana, banana]], storage).prize).toBe(1)
+    expect(process(1, config, filledGrid, [[banana, kiwi, orange]], storage).prize).toBe(0)
+    expect(process(1, config, filledGrid, [[banana, banana, orange]], storage).prize).toBe(0)
+    expect(process(1, config, filledGrid, [[banana, banana, banana]], storage).prize).toBe(1)
 
-    expect(process(config, filledGrid, [[kiwi, kiwi, orange]], storage).prize).toBe(2)
-    expect(process(config, filledGrid, [[orange, kiwi, kiwi]], storage).prize).toBe(10)
+    expect(process(1, config, filledGrid, [[kiwi, kiwi, orange]], storage).prize).toBe(2)
+    expect(process(1, config, filledGrid, [[orange, kiwi, kiwi]], storage).prize).toBe(10)
 
-    expect(process(config, filledGrid, [[orange, orange, kiwi]], storage).prize).toBe(20)
-    expect(process(config, filledGrid, [[orange, orange, orange]], storage).prize).toBe(100)
+    expect(process(1, config, filledGrid, [[orange, orange, kiwi]], storage).prize).toBe(20)
+    expect(process(1, config, filledGrid, [[orange, orange, orange]], storage).prize).toBe(100)
 })
 
 
@@ -87,14 +87,14 @@ test('5 reels; 1 row; 4 symbols per reel (Wild)', () => {
         }
     }
 
-    expect(process(config, filledGrid, [[wild, wild, wild]], storage).prize).toBe(0)
-    expect(process(config, filledGrid, [[wild, banana, banana]], storage).prize).toBe(1)
-    expect(process(config, filledGrid, [[banana, wild, banana]], storage).prize).toBe(1)
-    expect(process(config, filledGrid, [[wild, kiwi, orange]], storage).prize).toBe(2)
-    expect(process(config, filledGrid, [[orange, wild, kiwi]], storage).prize).toBe(20)
-    expect(process(config, filledGrid, [[orange, wild, orange]], storage).prize).toBe(100)
-    expect(process(config, filledGrid, [[orange, orange, kiwi]], storage).prize).toBe(20)
-    expect(process(config, filledGrid, [[orange, orange, wild]], storage).prize).toBe(100)
+    expect(process(1, config, filledGrid, [[wild, wild, wild]], storage).prize).toBe(0)
+    expect(process(1, config, filledGrid, [[wild, banana, banana]], storage).prize).toBe(1)
+    expect(process(1, config, filledGrid, [[banana, wild, banana]], storage).prize).toBe(1)
+    expect(process(1, config, filledGrid, [[wild, kiwi, orange]], storage).prize).toBe(2)
+    expect(process(1, config, filledGrid, [[orange, wild, kiwi]], storage).prize).toBe(20)
+    expect(process(1, config, filledGrid, [[orange, wild, orange]], storage).prize).toBe(100)
+    expect(process(1, config, filledGrid, [[orange, orange, kiwi]], storage).prize).toBe(20)
+    expect(process(1, config, filledGrid, [[orange, orange, wild]], storage).prize).toBe(100)
 })
 
 test('generate results', () => {
@@ -122,13 +122,13 @@ test('generate results', () => {
     }
     const cache = buildCache(config)
     const firstSpin: IGrid = grid(config, cache)
-    const firstSpinLines: IResult = process(config, firstSpin, mask(config, firstSpin), storage)
+    const firstSpinLines: IResult = process(1, config, firstSpin, mask(config, firstSpin), storage)
     expect(firstSpinLines.prize).toBe(100)
     expect(firstSpin.freeSpin.multiplier).toBe(10)
 
 
     const secondSpin: IGrid = grid(config, cache)
-    const secondSpinLines: IResult = process(config, firstSpin, mask(config, secondSpin), firstSpinLines.exitStorage)
+    const secondSpinLines: IResult = process(1, config, firstSpin, mask(config, secondSpin), firstSpinLines.exitStorage)
     expect(secondSpinLines.prize).toBe(100 * 10)
     expect(secondSpin.freeSpin.multiplier).toBe(10)
 
