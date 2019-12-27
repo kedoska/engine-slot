@@ -56,7 +56,7 @@ export const mask = (config: IConfig, filledGrid: IGrid): number[][] => {
 }
 
 
-export const decorate = (config: IConfig, filledMask: number[][] = [[]], storage: IStorage): IResult => {
+export const processLines = (config: IConfig, filledMask: number[][] = [[]], storage: IStorage): IResult => {
     const result: IResult = {
         lines: [],
         prize: 0,
