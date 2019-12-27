@@ -1,4 +1,4 @@
-import { decorate } from "../lib"
+import { processLines } from "../lib"
 import { IConfig, IStorage } from "../lib/types"
 
 const banana = 0
@@ -40,15 +40,15 @@ test('5 reels; 1 row; 3 symbols per reel', () => {
         ]
     }
 
-    expect(decorate(config, [[banana, kiwi, orange]], storage).prize).toBe(0)
-    expect(decorate(config, [[banana, banana, orange]], storage).prize).toBe(0)
-    expect(decorate(config, [[banana, banana, banana]], storage).prize).toBe(1)
+    expect(processLines(config, [[banana, kiwi, orange]], storage).prize).toBe(0)
+    expect(processLines(config, [[banana, banana, orange]], storage).prize).toBe(0)
+    expect(processLines(config, [[banana, banana, banana]], storage).prize).toBe(1)
 
-    expect(decorate(config, [[kiwi, kiwi, orange]], storage).prize).toBe(2)
-    expect(decorate(config, [[orange, kiwi, kiwi]], storage).prize).toBe(10)
+    expect(processLines(config, [[kiwi, kiwi, orange]], storage).prize).toBe(2)
+    expect(processLines(config, [[orange, kiwi, kiwi]], storage).prize).toBe(10)
 
-    expect(decorate(config, [[orange, orange, kiwi]], storage).prize).toBe(20)
-    expect(decorate(config, [[orange, orange, orange]], storage).prize).toBe(100)
+    expect(processLines(config, [[orange, orange, kiwi]], storage).prize).toBe(20)
+    expect(processLines(config, [[orange, orange, orange]], storage).prize).toBe(100)
 })
 
 
@@ -80,12 +80,12 @@ test('5 reels; 1 row; 4 symbols per reel (Wild)', () => {
         }
     }
 
-    expect(decorate(config, [[wild, wild, wild]], storage).prize).toBe(0)
-    expect(decorate(config, [[wild, banana, banana]], storage).prize).toBe(1)
-    expect(decorate(config, [[banana, wild, banana]], storage).prize).toBe(1)
-    expect(decorate(config, [[wild, kiwi, orange]], storage).prize).toBe(2)
-    expect(decorate(config, [[orange, wild, kiwi]], storage).prize).toBe(20)
-    expect(decorate(config, [[orange, wild, orange]], storage).prize).toBe(100)
-    expect(decorate(config, [[orange, orange, kiwi]], storage).prize).toBe(20)
-    expect(decorate(config, [[orange, orange, wild]], storage).prize).toBe(100)
+    expect(processLines(config, [[wild, wild, wild]], storage).prize).toBe(0)
+    expect(processLines(config, [[wild, banana, banana]], storage).prize).toBe(1)
+    expect(processLines(config, [[banana, wild, banana]], storage).prize).toBe(1)
+    expect(processLines(config, [[wild, kiwi, orange]], storage).prize).toBe(2)
+    expect(processLines(config, [[orange, wild, kiwi]], storage).prize).toBe(20)
+    expect(processLines(config, [[orange, wild, orange]], storage).prize).toBe(100)
+    expect(processLines(config, [[orange, orange, kiwi]], storage).prize).toBe(20)
+    expect(processLines(config, [[orange, orange, wild]], storage).prize).toBe(100)
 })
