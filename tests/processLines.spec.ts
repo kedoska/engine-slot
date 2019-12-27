@@ -17,12 +17,6 @@ const storage: IStorage = {
 
 test('5 reels; 1 row; 3 symbols per reel', () => {
     const config: IConfig = {
-        r: 1,
-        w: [
-            [bananasW, kiwisW, orangesW],  // first reel
-            [bananasW, kiwisW, orangesW],  // second reel
-            [bananasW, kiwisW, orangesW],  // third reel
-        ],
         m: [
             [0, 0, 0, 0, 0],            // line definition
                                         // only one line (LTR) is possible
@@ -37,7 +31,13 @@ test('5 reels; 1 row; 3 symbols per reel', () => {
             [10, 20, 100],              // 1 orange pays     10
                                         // 2 oranges pays    20
                                         // 3 oranges pays   100
-        ]
+        ],
+        r: 1,
+        w: [
+            [bananasW, kiwisW, orangesW],  // first reel
+            [bananasW, kiwisW, orangesW],  // second reel
+            [bananasW, kiwisW, orangesW],  // third reel
+        ],
     }
 
     expect(processLines(config, [[banana, kiwi, orange]], storage).prize).toBe(0)
@@ -54,12 +54,6 @@ test('5 reels; 1 row; 3 symbols per reel', () => {
 
 test('5 reels; 1 row; 4 symbols per reel (Wild)', () => {
     const config: IConfig = {
-        r: 1,
-        w: [
-            [bananasW, kiwisW, orangesW, wildW],  // first reel
-            [bananasW, kiwisW, orangesW, wildW],  // second reel
-            [bananasW, kiwisW, orangesW, wildW],  // third reel
-        ],
         m: [
             [0, 0, 0, 0, 0],            // line definition
                                         // only one line (LTR) is possible
@@ -74,6 +68,12 @@ test('5 reels; 1 row; 4 symbols per reel (Wild)', () => {
             [10, 20, 100],              // 1 orange pays     10
                                         // 2 oranges pays    20
                                         // 3 oranges pays   100
+        ],
+        r: 1,
+        w: [
+            [bananasW, kiwisW, orangesW, wildW],  // first reel
+            [bananasW, kiwisW, orangesW, wildW],  // second reel
+            [bananasW, kiwisW, orangesW, wildW],  // third reel
         ],
         wild: {
             index: 3,                   // the last symbol is the wildcard

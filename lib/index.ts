@@ -1,4 +1,4 @@
-import { IConfig, ILines, IStorage, IGrid } from './types'
+import { IConfig, IGrid, ILines, IStorage } from './types'
 
 export const r = (max: number): number => Math.floor(Math.random() * max) + 1
 
@@ -15,7 +15,6 @@ export const select = (arr: number[] = [], n: number = 0): number => {
 }
 
 export const grid = (config: IConfig, cache: number[]): IGrid => {
-
     const { freeSpin } = config
     const fsi = freeSpin && freeSpin.index ? freeSpin.index : -1
 
@@ -25,7 +24,6 @@ export const grid = (config: IConfig, cache: number[]): IGrid => {
     for (let row = 0; row < config.r; row++) {
         symbols.push([])
         for (let reel = 0; reel < config.w.length; reel++) {
-
             const symbol = select(config.w[reel], r(cache[reel]))
 
             if (fsi > -1 && symbol === fsi) {
@@ -54,7 +52,6 @@ export const mask = (config: IConfig, filledGrid: IGrid): number[][] => {
     }
     return ll
 }
-
 
 export const processLines = (config: IConfig, filledMask: number[][] = [[]], storage: IStorage): ILines => {
     const result: ILines = {
@@ -103,7 +100,6 @@ export const processLines = (config: IConfig, filledMask: number[][] = [[]], sto
         }
         const prizesPerSymbol = config.p[symbol]
         if (prizesPerSymbol) {
-
             // the multiplier, from the prev session, to be applied to the current session.
             const { multiplier = 1 } = storage
 
