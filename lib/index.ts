@@ -68,7 +68,7 @@ export const mask = (config: IConfig, filledGrid: IGrid): number[][] => {
     return ll
 }
 
-export const processLines = (
+export const process = (
     config: IConfig,
     filledGrid: IGrid,
     filledMask: number[][] = [[]],

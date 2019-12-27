@@ -32,7 +32,7 @@ test('grid having free spins', () => {
 
     expect(g.symbols.length).toBe(config.r)
     expect(g.freeSpin.total).toBe(100)
-    // multiplier is converted to 1 to avoid `*0` later in `processLines`
+    // multiplier is converted to 1 to avoid `*0` later in `process`
     expect(g.freeSpin.multiplier).toBe(1)
     expect(g.freeSpin.symbols).toBe(3)
 })
