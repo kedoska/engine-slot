@@ -1,5 +1,6 @@
-Engine Slot
-===========
+<p align="center">
+    <img src="https://user-images.githubusercontent.com/11739105/71529109-b389f100-28a8-11ea-9e16-1a4d0a8ec49b.png" alt="engine-blackjack" style="max-width:100%;">
+</p>
 
 A NodeJs or Web library to _create_ slot machines.
 
@@ -71,3 +72,26 @@ Before to go ahead, please consider that Free spins have some basic, built-in ru
  7. repeat `4` -> `5` -> and `6` but this time override the last parameter of the `process` function (the `storage`) with the `result.exitStorage`
 
 The `IResult.exitStorage` implements the `IStorage` interface, which is mutated during the `process` function. In a non-test environment you probably are storing the `result`, associated to some _user_ information, in order to restore the state of the slot machine, continuing with the _game_.
+
+
+# License
+
+engine-slot
+Copyright (C) 2016 Marco Casula
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; version 2 of the License.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+# Credits
+
+Thanks @webpty for logos
