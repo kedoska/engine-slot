@@ -100,6 +100,26 @@ export interface IConfig {
     }
 }
 
+export interface IFreeSpin {
+    /**
+     * total free spin symbols on the grid.
+     * it is calculated across the grid, not line by line.
+     * @type {number}
+     */
+    symbols: number
+    /**
+     * total free spins won on the spin.
+     * This number must be persistent across games, the storage should be incremented with this value.
+     * @type {number}
+     */
+    total: number
+    /**
+     * multiplier represent the multiplier to apply to all the winning lines generated on free spins.
+     * @type {number}
+     */
+    multiplier: number
+}
+
 export interface IProcessedLine {
     i: number
     combo: number
@@ -110,44 +130,15 @@ export interface IProcessedLine {
 
 export interface IGrid {
     symbols: number[][]
-    /**
-     * totalFSS total free spin symbols represent the number of FS symbols in the grid.
-     * it is calculated across the grid, not line by line.
-     * 
-     * It must be used to extract the right condition from the configuration, in order to
-     * obtain the (eventual) multiplier and the number of free spin to come.
-     * @type {number}
-     */
-    freeSpin: {
-        /**
-         * total free spin symbols on the grid.
-         * it is calculated across the grid, not line by line.
-         * @type {number}
-         */
-        symbols: number
-        /**
-         * total free spins won on the spin.
-         * This number must be persistent across games, the storage should be incremented with this value.
-         * @type {number}
-         */
-        total: number
-        /**
-         * multiplier represent the multiplier to apply to all the winning lines generated on free spins.
-         * @type {number}
-         */
-        multiplier: number
-    }
+    freeSpin: IFreeSpin
+}
+
+export interface IStorage {
+    freeSpin?: IFreeSpin
 }
 
 export interface ILines {
     prize: number
     lines: IProcessedLine[]
+    exitStorage: IStorage
 }
-
-export interface IStorage {
-    multiplier: number
-}
-
-// export interface IResult {
-
-// }

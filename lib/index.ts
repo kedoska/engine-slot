@@ -69,10 +69,11 @@ export const mask = (config: IConfig, filledGrid: IGrid): number[][] => {
     return ll
 }
 
-export const processLines = (config: IConfig, filledMask: number[][] = [[]], storage: IStorage): ILines => {
+export const processLines = (config: IConfig, filledGrid: IGrid, filledMask: number[][] = [[]], storage: IStorage): ILines => {
     const result: ILines = {
         lines: [],
         prize: 0,
+        exitStorage: {}
     }
     const { wild } = config
     const wi = wild && Number.isInteger(wild.index) ? wild.index : -1
@@ -117,7 +118,7 @@ export const processLines = (config: IConfig, filledMask: number[][] = [[]], sto
         const prizesPerSymbol = config.p[symbol]
         if (prizesPerSymbol) {
             // the multiplier, from the prev session, to be applied to the current session.
-            const { multiplier = 1 } = storage
+            const { multiplier = 1 } = storage.freeSpin || {}
 
             const prize = prizesPerSymbol[combo - 1] * multiplier
             if (prize) {
@@ -126,6 +127,7 @@ export const processLines = (config: IConfig, filledMask: number[][] = [[]], sto
             }
         }
     }
+    result.exitStorage = digest(storage, filledGrid)
     return result
 }
 
@@ -134,3 +136,16 @@ export const sum = (arr: number[] = []) => arr.reduce((m, v) => m + v, 0)
 // build cache returns an array representing, for each w in config
 // the sum of all the symbols w.
 export const buildCache = (config: IConfig) => config.w.map(sum)
+
+export const digest = (prev?: IStorage, filledGrid?: IGrid): IStorage => {
+    const currentFreeSpins = (prev && prev.freeSpin) ? prev.freeSpin.total : 0
+    const comingFreeSpins = (filledGrid && filledGrid.freeSpin) ? filledGrid.freeSpin.total : 0
+    const discountFreeSpin = (prev && prev.freeSpin && prev.freeSpin.total) ? 1 : 0
+    return {
+        freeSpin: {
+            symbols: (filledGrid && filledGrid.freeSpin) ? filledGrid.freeSpin.symbols : 0,
+            total: (currentFreeSpins + comingFreeSpins) - discountFreeSpin,
+            multiplier: (filledGrid && filledGrid.freeSpin) ? filledGrid.freeSpin.multiplier : 0,
+        }
+    }
+}
