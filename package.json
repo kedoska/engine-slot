@@ -1,7 +1,7 @@
 {
     "name": "@kedoska/engine-slot",
-    "version": "Use the package-public.json file for version",
-    "description": "Use the package-public.json file for public definitions",
+    "version": "0",
+    "description": "See package-public.json",
     "scripts": {
         "test": "jest",
         "coverage": "jest --coverage",
