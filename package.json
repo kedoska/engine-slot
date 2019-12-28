@@ -1,7 +1,7 @@
 {
     "name": "@kedoska/engine-slot",
-    "version": "0",
-    "description": "See package-public.json",
+    "version": "0.0.0",
+    "description": "A library to build slot machines",
     "scripts": {
         "test": "jest",
         "coverage": "jest --coverage",
