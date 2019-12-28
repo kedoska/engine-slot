@@ -17,6 +17,6 @@ cp ./README.md $DEST
 cp ./package-public.json $DEST/package.json
 cd $DEST
 echo entering `pwd`
-# npm publish
+npm publish
 
 rm -rf ./dist/
