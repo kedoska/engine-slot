@@ -1,11 +1,9 @@
 {
     "name": "@kedoska/engine-slot",
-    "version": "0.0.1",
-    "description": "A slot machine engine",
+    "version": "0.0.2",
+    "description": "A library to build slot machines",
     "main": "./index.js",
     "types": "./index.d.ts",
-    "scripts": {
-    },
     "bugs": {
         "url": "https://github.com/kedoska/engine-slot/issues"
     },
@@ -13,7 +11,10 @@
         "type": "git",
         "url": "git@github.com:kedoska/engine-slot.git"
     },
-    "keywords": [],
+    "keywords": [
+        "casino",
+        "games"
+    ],
     "author": "Marco Casula <marco.casula@gmail.com>",
     "license": "GPL-2.0",
     "publishConfig": {
