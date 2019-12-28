@@ -9,12 +9,7 @@
         "coverage": "jest --coverage",
         "build": "tsc",
         "format": "prettier --write \"lib/**/*.ts\" \"lib/**/*.js\"",
-        "lint": "tslint -p tsconfig.json",
-        "prepare": "npm run build",
-        "prepublishOnly": "npm test && npm run lint",
-        "preversion": "npm run lint",
-        "version": "npm run format && git add -A lib",
-        "postversion": "git push && git push --tags"
+        "lint": "tslint -p tsconfig.json"
     },
     "bugs": {
         "url": "https://github.com/kedoska/engine-slot/issues"
