@@ -2,10 +2,10 @@ import { IConfig, IGrid, IResult, IStorage } from './types'
 
 export const r = (max: number): number => Math.floor(Math.random() * max) + 1
 
-export const select = (arr: number[] = [], n: number = 0): number => {
+export const select = (reel: number, arr: number[][] = [[]], n: number = 0): number => {
     let v: number = 0
     for (let i = 0; i < arr.length; i++) {
-        v += arr[i]
+        v += arr[i][reel]
         if (v < n) {
             continue
         }
@@ -28,7 +28,7 @@ export const grid = (config: IConfig, cache: number[]): IGrid => {
     for (let row = 0; row < config.r; row++) {
         symbols.push([])
         for (let reel = 0; reel < config.w.length; reel++) {
-            const symbol = select(config.w[reel], r(cache[reel]))
+            const symbol = select(reel, config.w, r(cache[reel]))
 
             if (fsi > -1 && symbol === fsi) {
                 // Free Spin Symbols are across the grid not by line.
@@ -48,7 +48,6 @@ export const grid = (config: IConfig, cache: number[]): IGrid => {
             freeSpin.multiplier = condition.multiply || 1 // multiplier could be 0
         }
     }
-
     return {
         freeSpin,
         symbols,
@@ -75,7 +74,7 @@ export const mask = (config: IConfig, filledGrid: IGrid): number[][] => {
  * @param filledMask {number[][]}
  * @param storage {IStorage}
  */
-export const process = (
+export const execute = (
     betPerLine: number,
     config: IConfig,
     filledGrid: IGrid,
@@ -143,16 +142,23 @@ export const process = (
     return result
 }
 
-export const sum = (arr: number[] = []) => arr.reduce((m, v) => m + v, 0)
+// build cache returns an array representing, the sum of all the symbols per reel (no row...)
+export const buildCache = (config: IConfig): number[] => {
+    const arr: number[] = new Array(config.w[0].length).fill(0)
 
-// build cache returns an array representing, for each w in config
-// the sum of all the symbols w.
-export const buildCache = (config: IConfig) => config.w.map(sum)
+    for (let reel = 0; reel < arr.length; reel++) {
+        for (const s of config.w) {
+            arr[reel] += s[reel]
+        }
+    }
+    return arr
+}
 
 export const digest = (prev?: IStorage, filledGrid?: IGrid): IStorage => {
     const comingFreeSpins = filledGrid && filledGrid.freeSpin ? filledGrid.freeSpin.total : 0
     const currentFreeSpins = prev && prev.freeSpin ? prev.freeSpin.total : 0
     const discountFreeSpin = prev && prev.freeSpin && prev.freeSpin.total ? 1 : 0
+
     return {
         freeSpin: {
             multiplier: filledGrid && filledGrid.freeSpin ? filledGrid.freeSpin.multiplier : 0,
@@ -160,4 +166,10 @@ export const digest = (prev?: IStorage, filledGrid?: IGrid): IStorage => {
             total: currentFreeSpins + comingFreeSpins - discountFreeSpin,
         },
     }
+}
+
+export const spin = (betPerLine: number, config: IConfig, cache: number[], storage: IStorage): IResult => {
+    const g = grid(config, cache)
+    const m = mask(config, g)
+    return execute(betPerLine, config, g, m, storage)
 }
