@@ -1,5 +1,5 @@
+import { buildCache, spin } from "../lib"
 import { IConfig, IStorage } from "../lib/types"
-import { spin, buildCache } from "../lib"
 
 const config: IConfig = {
     freeSpin: {
@@ -65,7 +65,7 @@ test('21 lines, with wild, free spins, RTP between 88 and 95', () => {
     
     const cache = buildCache(config)
 
-    let maxSpins = 1000000
+    const maxSpins = 1000000
     let totalSpins = 0
     let totalRisk = 0
     let finalPrize = 0
@@ -88,12 +88,7 @@ test('21 lines, with wild, free spins, RTP between 88 and 95', () => {
         totalFreeSpins += r.exitStorage.freeSpin?.total || 0
     }
 
-    console.dir({
-        finalPrize,
-        totalRisk,
-        totalFreeSpins,
-        rtp: finalPrize / totalRisk,
-    })
+    const rtp = finalPrize / totalRisk
 
     expect(totalSpins).toBe(maxSpins)
     expect(finalPrize).toBeGreaterThan(0)
@@ -101,5 +96,7 @@ test('21 lines, with wild, free spins, RTP between 88 and 95', () => {
     expect(totalRisk).toBeGreaterThan(finalPrize)
     expect(totalFreeSpins).toBeGreaterThan(0)
     expect(totalSpins).toBeGreaterThan(totalRisk)
+    expect(rtp).toBeGreaterThanOrEqual(.8800)
+    expect(rtp).toBeLessThanOrEqual(.9500)
 })
 
