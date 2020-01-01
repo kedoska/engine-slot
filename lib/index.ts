@@ -4,14 +4,14 @@ export const r = (max: number): number => Math.floor(Math.random() * max) + 1
 
 export const select = (reel: number, arr: number[][] = [[]], n: number = 0): number => {
     let v: number = 0
-    for (let i = 0; i < arr.length; i++) {
-        v += arr[i][reel]
+    for (let i = 0; i < arr[reel].length; i++) {
+        v += arr[reel][i]
         if (v < n) {
             continue
         }
         return i
     }
-    throw Error(`could not select a number: in ${arr.join('|')} using "${n}"`)
+    throw Error(`could not select a number in reel ${reel} between ${arr[reel].join('|')} using "${n}"`)
 }
 
 export const grid = (config: IConfig, cache: number[]): IGrid => {
@@ -29,7 +29,6 @@ export const grid = (config: IConfig, cache: number[]): IGrid => {
         symbols.push([])
         for (let reel = 0; reel < config.w.length; reel++) {
             const symbol = select(reel, config.w, r(cache[reel]))
-
             if (fsi > -1 && symbol === fsi) {
                 // Free Spin Symbols are across the grid not by line.
                 freeSpin.symbols++
@@ -48,6 +47,7 @@ export const grid = (config: IConfig, cache: number[]): IGrid => {
             freeSpin.multiplier = condition.multiply || 1 // multiplier could be 0
         }
     }
+
     return {
         freeSpin,
         symbols,
@@ -144,12 +144,10 @@ export const execute = (
 
 // build cache returns an array representing, the sum of all the symbols per reel (no row...)
 export const buildCache = (config: IConfig): number[] => {
-    const arr: number[] = new Array(config.w[0].length).fill(0)
+    const arr: number[] = new Array(config.w.length).fill(0)
 
     for (let reel = 0; reel < arr.length; reel++) {
-        for (const s of config.w) {
-            arr[reel] += s[reel]
-        }
+        arr[reel] = config.w[reel].reduce((x, m) => m + x, 0)
     }
     return arr
 }

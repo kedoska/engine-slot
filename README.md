@@ -7,7 +7,7 @@ A NodeJs or Web library to _create_ slot machines.
 ### Philosophy
 
  * **configurable** any number of reels/rows must be possible
- * **testable** payout, symbols and lines must be testable 
+ * **testable** payout, symbols and lines and RTP must be testable 
  * **composable** no complex classes or states, all dependencies are injected
  * **less code** when it gets cryptographic, just write the comment
 

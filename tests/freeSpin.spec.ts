@@ -19,20 +19,30 @@ test('grid having free spins', () => {
         ],
         r: 1,
         w: [
-            [0, 0, 0],
-            [0, 0, 0],
             [1, 1, 1],
+            [1, 1, 1],
+            [10000, 10000, 10000],
         ],
     }
     const cache = buildCache(config)
-    expect(cache.length).toBe(3)
-    expect(cache).toStrictEqual([1, 1, 1])
+    const t1 = grid(config, cache)
+    const t2 = grid(config, cache)
+    const t3 = grid(config, cache)
+    const t4 = grid(config, cache)
 
-    const g = grid(config, cache)
+    expect(t1.freeSpin.total).toBeGreaterThanOrEqual(10)
+    expect(t1.freeSpin.multiplier).toBe(1)
+    expect(t1.freeSpin.symbols).toBeGreaterThanOrEqual(1)
 
-    expect(g.symbols.length).toBe(config.r)
-    expect(g.freeSpin.total).toBe(100)
-    // multiplier is converted to 1 to avoid `*0` later in `process`
-    expect(g.freeSpin.multiplier).toBe(1)
-    expect(g.freeSpin.symbols).toBe(3)
+    expect(t2.freeSpin.total).toBeGreaterThanOrEqual(10)
+    expect(t2.freeSpin.multiplier).toBe(1)
+    expect(t2.freeSpin.symbols).toBeGreaterThanOrEqual(1)
+
+    expect(t3.freeSpin.total).toBeGreaterThanOrEqual(10)
+    expect(t3.freeSpin.multiplier).toBe(1)
+    expect(t3.freeSpin.symbols).toBeGreaterThanOrEqual(1)
+
+    expect(t4.freeSpin.total).toBeGreaterThanOrEqual(10)
+    expect(t4.freeSpin.multiplier).toBe(1)
+    expect(t4.freeSpin.symbols).toBeGreaterThanOrEqual(1)
 })
