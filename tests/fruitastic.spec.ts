@@ -103,8 +103,6 @@ test('21 lines, with wild, free spins, RTP between 88 and 95', () => {
                 wonOverComboTimes[r.lines[li].combo - 1]++
                 wonOverComboPrizes[r.lines[li].ss[0]] += r.lines[li].prize
             }
-        } else {
-
         }
     }
 
