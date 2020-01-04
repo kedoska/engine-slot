@@ -126,14 +126,14 @@ export const execute = (
             combo++
             continue
         }
-        const prizesPerSymbol = config.p[symbol]
-        if (prizesPerSymbol) {
-            // the multiplier, from the prev session, to be applied to the current session.
-            const { multiplier = 1 } = storage.freeSpin || {}
-
-            const prize = betPerLine * prizesPerSymbol[combo - 1] * multiplier
+        const comboPrize = config.p[symbol]
+        if (comboPrize) {
+            const prize = betPerLine * comboPrize[combo - 1]
             if (prize) {
-                result.prize += prize
+                // the multiplier, from the prev session, to be applied to the current session.
+                const { multiplier = 1 } = storage.freeSpin || {}
+
+                result.prize += prize * multiplier
                 result.lines.push({ i, combo, prize, wc, ss: filledMask[i] })
             }
         }
