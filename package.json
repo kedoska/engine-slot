@@ -3,7 +3,8 @@
     "version": "0.0.0",
     "description": "A library to build slot machines",
     "scripts": {
-        "test": "jest",
+        "test-engine": "jest tests/",
+        "test-scl": "jest scl/",
         "coverage": "jest --coverage",
         "build": "tsc",
         "format": "prettier --write \"lib/**/*.ts\" \"lib/**/*.js\"",
