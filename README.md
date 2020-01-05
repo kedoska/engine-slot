@@ -11,6 +11,16 @@ A NodeJs or Web library to _create_ slot machines.
  * **composable** no complex classes or states, all dependencies are injected
  * **less code** when it gets cryptographic, just write the comment
 
+### SCL: Standard Configuration Library
+
+One of the most complex part of the slot machine is its configuration. All the factors are impacting the RTP (_Return To Player_) and it is crucial to be able to test and trust the configuration once deployed. In this project I'd like to introduce some of the most common (at least for me) configurations that can be used as a starting point to create new configuration files.
+
+
+The SCL is integrated into the project and part of the test battery. It means all the available configuration are guarantee using the following test:
+
+ * the test must finish after 1M spins, having the declared RTP
+ * all the available lines must be tested up to 1M spins, the result must be withing the range
+
 ### Motivation
 
 I've been working with slots since half of a decad right now. Most of the engines are (_perfectly working in production_) very complex and full of death features that honestly makes the entire projects annoying to read and work with.
@@ -45,7 +55,7 @@ At the very basics, a configuration file is required. Understand the configurati
  3. load the storage (state relative to your context) `const storage: IStorage = {}`
  4. generate the grid (random occurs here) `let spin: IGrid = grid(config, cache)`
  5. create the line mask: `let lines = mask(config, spin)`
- 6. process the grid across lines `const result: IResult = execute(1, config, spin, lines, storage)`
+ 6. process the grid across lines `const result: IResult = execute(config.m.length, 1,config, spin, lines, storage)`
  7. repeat `4` -> `5` -> `6` until is necessary...
 
 In the above example the storage is an `empty object` that has no previous state to pass to the `process function`
@@ -68,7 +78,7 @@ Before to go ahead, please consider that Free spins have some basic, built-in ru
  3. load the storage (state relative to your context) `const storage: IStorage = {}`
  4. generate the grid (random occurs here) `let spin: IGrid = grid(config, cache)`
  5. create the line mask: `let lines = mask(config, spin)`
- 6. process the grid across lines `let result: IResult = execute(1, config, spin, lines, storage)`
+ 6. process the grid across lines `let result: IResult = execute(config.m.length, 1,config, spin, lines, storage)`
  7. repeat `4` -> `5` -> and `6` but this time override the last parameter of the `process` function (the `storage`) with the `result.exitStorage`
 
 The `IResult.exitStorage` implements the `IStorage` interface, which is mutated during the `process` function. In a non-test environment you probably are storing the `result`, associated to some _user_ information, in order to restore the state of the slot machine, continuing with the _game_.

@@ -47,15 +47,15 @@ test('5 reels; 1 row; 3 symbols per reel', () => {
         ],
     }
 
-    expect(execute(1, config, filledGrid, [[banana, kiwi, orange]], storage).prize).toBe(0)
-    expect(execute(1, config, filledGrid, [[banana, banana, orange]], storage).prize).toBe(0)
-    expect(execute(1, config, filledGrid, [[banana, banana, banana]], storage).prize).toBe(1)
+    expect(execute(config.m.length, 1,config, filledGrid, [[banana, kiwi, orange]], storage).prize).toBe(0)
+    expect(execute(config.m.length, 1,config, filledGrid, [[banana, banana, orange]], storage).prize).toBe(0)
+    expect(execute(config.m.length, 1,config, filledGrid, [[banana, banana, banana]], storage).prize).toBe(1)
 
-    expect(execute(1, config, filledGrid, [[kiwi, kiwi, orange]], storage).prize).toBe(2)
-    expect(execute(1, config, filledGrid, [[orange, kiwi, kiwi]], storage).prize).toBe(10)
+    expect(execute(config.m.length, 1,config, filledGrid, [[kiwi, kiwi, orange]], storage).prize).toBe(2)
+    expect(execute(config.m.length, 1,config, filledGrid, [[orange, kiwi, kiwi]], storage).prize).toBe(10)
 
-    expect(execute(1, config, filledGrid, [[orange, orange, kiwi]], storage).prize).toBe(20)
-    expect(execute(1, config, filledGrid, [[orange, orange, orange]], storage).prize).toBe(100)
+    expect(execute(config.m.length, 1,config, filledGrid, [[orange, orange, kiwi]], storage).prize).toBe(20)
+    expect(execute(config.m.length, 1,config, filledGrid, [[orange, orange, orange]], storage).prize).toBe(100)
 })
 
 
@@ -87,12 +87,12 @@ test('5 reels; 1 row; 4 symbols per reel (Wild)', () => {
         }
     }
 
-    expect(execute(1, config, filledGrid, [[wild, wild, wild]], storage).prize).toBe(0)
-    expect(execute(1, config, filledGrid, [[wild, banana, banana]], storage).prize).toBe(1)
-    expect(execute(1, config, filledGrid, [[banana, wild, banana]], storage).prize).toBe(1)
-    expect(execute(1, config, filledGrid, [[wild, kiwi, orange]], storage).prize).toBe(2)
-    expect(execute(1, config, filledGrid, [[orange, wild, kiwi]], storage).prize).toBe(20)
-    expect(execute(1, config, filledGrid, [[orange, wild, orange]], storage).prize).toBe(100)
-    expect(execute(1, config, filledGrid, [[orange, orange, kiwi]], storage).prize).toBe(20)
-    expect(execute(1, config, filledGrid, [[orange, orange, wild]], storage).prize).toBe(100)
+    expect(execute(config.m.length, 1,config, filledGrid, [[wild, wild, wild]], storage).prize).toBe(0)
+    expect(execute(config.m.length, 1,config, filledGrid, [[wild, banana, banana]], storage).prize).toBe(1)
+    expect(execute(config.m.length, 1,config, filledGrid, [[banana, wild, banana]], storage).prize).toBe(1)
+    expect(execute(config.m.length, 1,config, filledGrid, [[wild, kiwi, orange]], storage).prize).toBe(2)
+    expect(execute(config.m.length, 1,config, filledGrid, [[orange, wild, kiwi]], storage).prize).toBe(20)
+    expect(execute(config.m.length, 1,config, filledGrid, [[orange, wild, orange]], storage).prize).toBe(100)
+    expect(execute(config.m.length, 1,config, filledGrid, [[orange, orange, kiwi]], storage).prize).toBe(20)
+    expect(execute(config.m.length, 1,config, filledGrid, [[orange, orange, wild]], storage).prize).toBe(100)
 })

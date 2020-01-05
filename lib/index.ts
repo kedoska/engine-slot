@@ -75,6 +75,7 @@ export const mask = (config: IConfig, filledGrid: IGrid): number[][] => {
  * @param storage {IStorage}
  */
 export const execute = (
+    maxLines: number,
     betPerLine: number,
     config: IConfig,
     filledGrid: IGrid,
@@ -128,7 +129,7 @@ export const execute = (
         }
         const comboPrize = config.p[symbol]
         if (comboPrize) {
-            const prize = betPerLine * comboPrize[combo - 1]
+            const prize = maxLines > i ? betPerLine * comboPrize[combo - 1] : 0
             if (prize) {
                 // the multiplier, from the prev session, to be applied to the current session.
                 const { multiplier = 1 } = storage.freeSpin || {}
@@ -166,8 +167,14 @@ export const digest = (prev?: IStorage, filledGrid?: IGrid): IStorage => {
     }
 }
 
-export const spin = (betPerLine: number, config: IConfig, cache: number[], storage: IStorage): IResult => {
+export const spin = (
+    maxLines: number,
+    betPerLine: number,
+    config: IConfig,
+    cache: number[],
+    storage: IStorage,
+): IResult => {
     const g = grid(config, cache)
     const m = mask(config, g)
-    return execute(betPerLine, config, g, m, storage)
+    return execute(maxLines, betPerLine, config, g, m, storage)
 }
