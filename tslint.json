@@ -1,4 +1,12 @@
 {
+    "rules": {
+        "ordered-imports": [
+            false
+        ],
+        "object-literal-sort-keys": [
+            false
+        ]
+    },
     "extends": [
         "tslint:recommended",
         "tslint-config-prettier"

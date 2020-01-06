@@ -2,16 +2,16 @@ import { IConfig, IGrid, IResult, IStorage } from './types'
 
 export const r = (max: number): number => Math.floor(Math.random() * max) + 1
 
-export const select = (arr: number[] = [], n: number = 0): number => {
+export const select = (reel: number, arr: number[][] = [[]], n: number = 0): number => {
     let v: number = 0
-    for (let i = 0; i < arr.length; i++) {
-        v += arr[i]
+    for (let i = 0; i < arr[reel].length; i++) {
+        v += arr[reel][i]
         if (v < n) {
             continue
         }
         return i
     }
-    throw Error(`could not select a number: in ${arr.join('|')} using "${n}"`)
+    throw Error(`could not select a number in reel ${reel} between ${arr[reel].join('|')} using "${n}"`)
 }
 
 export const grid = (config: IConfig, cache: number[]): IGrid => {
@@ -28,8 +28,7 @@ export const grid = (config: IConfig, cache: number[]): IGrid => {
     for (let row = 0; row < config.r; row++) {
         symbols.push([])
         for (let reel = 0; reel < config.w.length; reel++) {
-            const symbol = select(config.w[reel], r(cache[reel]))
-
+            const symbol = select(reel, config.w, r(cache[reel]))
             if (fsi > -1 && symbol === fsi) {
                 // Free Spin Symbols are across the grid not by line.
                 freeSpin.symbols++
@@ -75,7 +74,8 @@ export const mask = (config: IConfig, filledGrid: IGrid): number[][] => {
  * @param filledMask {number[][]}
  * @param storage {IStorage}
  */
-export const process = (
+export const execute = (
+    maxLines: number,
     betPerLine: number,
     config: IConfig,
     filledGrid: IGrid,
@@ -127,14 +127,14 @@ export const process = (
             combo++
             continue
         }
-        const prizesPerSymbol = config.p[symbol]
-        if (prizesPerSymbol) {
-            // the multiplier, from the prev session, to be applied to the current session.
-            const { multiplier = 1 } = storage.freeSpin || {}
-
-            const prize = betPerLine * prizesPerSymbol[combo - 1] * multiplier
+        const comboPrize = config.p[symbol]
+        if (comboPrize) {
+            const prize = maxLines > i ? betPerLine * comboPrize[combo - 1] : 0
             if (prize) {
-                result.prize += prize
+                // the multiplier, from the prev session, to be applied to the current session.
+                const { multiplier = 1 } = storage.freeSpin || {}
+
+                result.prize += prize * multiplier
                 result.lines.push({ i, combo, prize, wc, ss: filledMask[i] })
             }
         }
@@ -143,16 +143,21 @@ export const process = (
     return result
 }
 
-export const sum = (arr: number[] = []) => arr.reduce((m, v) => m + v, 0)
+// build cache returns an array representing, the sum of all the symbols per reel (no row...)
+export const buildCache = (config: IConfig): number[] => {
+    const arr: number[] = new Array(config.w.length).fill(0)
 
-// build cache returns an array representing, for each w in config
-// the sum of all the symbols w.
-export const buildCache = (config: IConfig) => config.w.map(sum)
+    for (let reel = 0; reel < arr.length; reel++) {
+        arr[reel] = config.w[reel].reduce((x, m) => m + x, 0)
+    }
+    return arr
+}
 
 export const digest = (prev?: IStorage, filledGrid?: IGrid): IStorage => {
     const comingFreeSpins = filledGrid && filledGrid.freeSpin ? filledGrid.freeSpin.total : 0
     const currentFreeSpins = prev && prev.freeSpin ? prev.freeSpin.total : 0
     const discountFreeSpin = prev && prev.freeSpin && prev.freeSpin.total ? 1 : 0
+
     return {
         freeSpin: {
             multiplier: filledGrid && filledGrid.freeSpin ? filledGrid.freeSpin.multiplier : 0,
@@ -160,4 +165,16 @@ export const digest = (prev?: IStorage, filledGrid?: IGrid): IStorage => {
             total: currentFreeSpins + comingFreeSpins - discountFreeSpin,
         },
     }
+}
+
+export const spin = (
+    maxLines: number,
+    betPerLine: number,
+    config: IConfig,
+    cache: number[],
+    storage: IStorage,
+): IResult => {
+    const g = grid(config, cache)
+    const m = mask(config, g)
+    return execute(maxLines, betPerLine, config, g, m, storage)
 }

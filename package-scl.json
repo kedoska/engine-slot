@@ -1,0 +1,25 @@
+{
+    "name": "@kedoska/engine-slot-scl",
+    "version": "0.0.4",
+    "description": "A library of configurations for the engine-slot",
+    "main": "./index.js",
+    "types": "./index.d.ts",
+    "bugs": {
+        "url": "https://github.com/kedoska/engine-slot/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:kedoska/engine-slot.git"
+    },
+    "keywords": [
+        "casino",
+        "slotmachine",
+        "configurations",
+        "RTP"
+    ],
+    "author": "Marco Casula <marco.casula@gmail.com>",
+    "license": "GPL-2.0",
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com/"
+    }
+}
