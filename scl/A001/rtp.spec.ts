@@ -6,7 +6,7 @@ describe('RTP Configuration Tests', () => {
 
     const ww = [
         { 
-            weights: weights8895, range: [.8800,.9500], test: false, maxSpins: 1_000_000, playUpToLines: 21
+            weights: weights8895, range: [.8800,.9500], test: true, maxSpins: 1_000_000, playUpToLines: 21
         },
         {
             weights: weights9297, range: [.9200,.9700], test: true, maxSpins: 1_000_000, playUpToLines: 21
