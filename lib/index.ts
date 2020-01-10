@@ -178,3 +178,17 @@ export const spin = (
     const m = mask(config, g)
     return execute(maxLines, betPerLine, config, g, m, storage)
 }
+
+export const distribute = (arr: number[][], min: number, max: number): number[][] => {
+    const range = max - min
+
+    for (let i = 0; i < arr.length; i++) {
+        const innerMax = (range / arr.length) * (i + 1)
+        const step = innerMax / arr[i].length
+
+        arr[i] = arr[i].map((v, j) => {
+            return j * step
+        })
+    }
+    return arr
+}

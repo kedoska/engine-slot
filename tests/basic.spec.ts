@@ -1,13 +1,13 @@
-import { buildCache, grid } from "../lib"
+import { buildCache, grid, distribute } from "../lib"
 import { IConfig } from "../lib/types"
 
 test('cache configuration', () => {
-    const config:IConfig = {
+    const config: IConfig = {
         m: [
-            [0,0,0]
+            [0, 0, 0]
         ],
         p: [
-            [0,0,0]
+            [0, 0, 0]
         ],
         r: 1,
         w: [
@@ -22,12 +22,12 @@ test('cache configuration', () => {
 })
 
 test('simple grid', () => {
-    const config:IConfig = {
+    const config: IConfig = {
         m: [
-            [0,0,0]
+            [0, 0, 0]
         ],
         p: [
-            [0,0,0]
+            [0, 0, 0]
         ],
         r: 1,
         w: [
@@ -43,4 +43,29 @@ test('simple grid', () => {
     const g = grid(config, cache)
 
     expect(g.symbols.length).toBe(config.r)
+})
+
+test('distribute weight over array', () => {
+
+    const arr: number[][] = [
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+    ]
+
+    const expected = [
+        [0, 200, 400, 600, 800],
+        [0, 400, 800, 1200, 1600],
+        [0, 600, 1200, 1800, 2400],
+        [0, 800, 1600, 2400, 3200],
+        [0, 1000, 2000, 3000, 4000]
+    ]
+
+    const min = 0
+    const max = 5000
+
+    expect(distribute(arr, min, max)).toStrictEqual(expected)
+
 })
