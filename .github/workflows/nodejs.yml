@@ -21,7 +21,6 @@ jobs:
       run: |
         npm ci
         npm run lint
-        npm run test-engine
-        npm run test-scl
+        npm run test
       env:
         CI: true

@@ -1,6 +1,6 @@
 {
-    "name": "@kedoska/engine-slot",
-    "version": "0.0.4",
+    "name": "engine-slot",
+    "version": "0.0.6",
     "description": "A library to build slot machines",
     "main": "./index.js",
     "types": "./index.d.ts",
@@ -17,8 +17,5 @@
         "games"
     ],
     "author": "Marco Casula <marco.casula@gmail.com>",
-    "license": "GPL-2.0",
-    "publishConfig": {
-        "registry": "https://npm.pkg.github.com/"
-    }
+    "license": "GPL-2.0"
 }

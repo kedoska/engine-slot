@@ -19,14 +19,4 @@ cd $ENGINE
 echo entering `pwd`
 npm publish
 
-cd $ORIGIN
-
-SCL=./dist/scl
-cp ./README-SCL.md $SCL/README.md
-cp ./package-scl.json $SCL/package.json
-cd $SCL
-find -type f -name '*.spec.*' -delete
-echo entering `pwd`
-npm publish
-
 rm -rf ./dist/

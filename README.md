@@ -73,19 +73,6 @@ Before to go ahead, please consider that Free spins have some basic, built-in ru
 
 The `IResult.exitStorage` implements the `IStorage` interface, which is mutated during the `process` function. In a non-test environment you probably are storing the `result`, associated to some _user_ information, in order to restore the state of the slot machine, continuing with the _game_.
 
-
-### SCL: Standard Configuration Library
-
-One of the most complex part of the slot machine is its configuration. All the factors are impacting the **RTP** (_Return To Player_) and it is crucial to be able to test and trust the configuration once deployed. In this project I'd like to introduce some of the most common (at least for me) configurations that can be used as a starting point to create new configuration files.
-
-
-The SCL is integrated into the project and part of the test battery. It means all the available configuration are guarantee using the following test:
-
- * the test must finish after 1M spins, having the declared RTP
- * all the available lines must be tested up to 1M spins, the result must be withing the range
-
-SCL is distributed under a separate package, not required to use the engine, however it could be useful to check out some of the available configurations.
-
 # License
 
 engine-slot
